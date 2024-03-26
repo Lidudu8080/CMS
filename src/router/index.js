@@ -1,16 +1,23 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Layout from '@/layout'
+import Vue from "vue";
+import Router from "vue-router";
+import Layout from "@/layout";
 
-Vue.use(VueRouter)
+Vue.use(Router);
 
-const routes = [
-    {
-        path: '/',
-        name: 'Layout',
-        meta: { title: '首页' },
-        compontent: () => import('@/pages/home')
-    }
-]
+const constantRoutes = [
+  {
+    path: "/",
+    name: "layout",
+    component: Layout,
+    children: [
+      {
+        path: "/home",
+        name: "首页",
+        meta: { title: "首页" },
+        component: () => import("@/pages/home"),
+      },
+    ],
+  },
+];
 
-export default new VueRouter({ routes: constantRoutes })
+export default new Router({ routes: constantRoutes });

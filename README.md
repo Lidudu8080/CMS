@@ -1,35 +1,36 @@
 # cms
 
 ## Project setup
+
 ```
 yarn install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
 yarn serve
 ```
 
 ### Compiles and minifies for production
+
 ```
 yarn build
 ```
 
 ### Lints and fixes files
+
 ```
 yarn lint
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-
-1.创建vue2项目cms，配置vue.config.js文件()  使用css自动导入：style-resources-loader1.2.1   yes
- router的配置  layout页面注册(主页面) layout页面布局(拆分组件Sidebar(左侧菜单)Navbar(顶部header)AppMain(中间部分))=>注册路由   components下面新建index来管理所有组件在其它页面的引入
- layout：Sidebar 
-
-
+layout 页面思路
+Sidebar 先是一张后台管理的图片和文字，点击跳转主页
+菜单的封装思想： 1.将菜单项分离，菜单项包括一级菜单和多级菜单，封装 2.点击菜单项跳转的链接分为内部和外部链接，封装 3.多级菜单递归展示，那么每级菜单的项目都是一样的，封装函数式组件，利用 render 渲染
 
 记录小问题
-@compontents未下载依赖的报错 因为在components文件下时没有index.vue的，所以就会认为components是node_moudles下的依赖
-
+@compontents 未下载依赖的报错 因为在 components 文件下时没有 index.vue 的，所以就会认为 components 是 node_moudles 下的依赖
