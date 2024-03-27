@@ -3,7 +3,7 @@
     <!-- 一级菜单 -->
     <template
       v-if="
-        hasShowingChild(item.children, item) &&
+        hasOneShowingChild(item.children, item) &&
         (!onlyOneChild.children || onlyOneChild.noShowingChildren) &&
         !item.alwaysShow
       "
@@ -25,6 +25,13 @@
           :title="item.meta.title"
         />
       </template>
+      <sidebar-item
+        v-for="child in item.children"
+        :key="child.path"
+        :item="child"
+        :base-path="resolvePath(child.path)"
+        class="nest-menu"
+      ></sidebar-item>
     </el-submenu>
   </div>
 </template>
@@ -68,7 +75,7 @@ export default {
   },
   computed: {
     // 判断菜单项是否有子菜单，没有就是一级菜单，有就是多级菜单
-    hasShowingChild(children = [], parent) {
+    hasOneShowingChild(children = [], parent) {
       // 判断子菜单有没有数据
       const showingChild = children.filter((item) => {
         if (item.hidden) {
