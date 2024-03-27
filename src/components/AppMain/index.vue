@@ -4,7 +4,12 @@
 <script>
 export default {
   name: "appmain",
-  data() {},
+ data () {
+    return {
+
+
+    }
+  },
   methods: {},
 };
 </script>

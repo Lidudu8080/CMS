@@ -4,7 +4,12 @@
 <script>
 export default {
   name: "navbar",
-  data() {},
+  data () {
+    return {
+
+
+    }
+  },
   methods: {},
 };
 </script>

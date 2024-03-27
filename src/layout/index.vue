@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="appwaaper">
     <Sidebar />
     <Navbar />
     <AppMain />
@@ -14,7 +14,14 @@ export default {
     Navbar,
     AppMain,
   },
-  data() {},
+  data() {
+    return {};
+  },
   methods: {},
 };
 </script>
+<style lang="less" scoped>
+.appwaaper {
+  height: 100%;
+}
+</style>

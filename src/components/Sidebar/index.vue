@@ -1,17 +1,33 @@
 <template>
-  <div class="sider-waaper">
-    <div>
+  <div class="siderwaaper">
+    <div class="logobox" @click="goHome()">
       <p>
-        <img src="@/assets/logo.png" />
+        <img src="@/assets/logo.png" class="logoimg" />
       </p>
+    
     </div>
-    <el-menu default-active=""> </el-menu>
+
+    <el-menu
+      :default-active="activeMenu"
+      :collapse="true"
+      background-color="#304156"
+      text-color="#bfcbd9"
+      active-text-color="#409eff"
+      mode="vertical"
+      v-for="(item, index) in permissionList[0]"
+      :key="index"
+    >
+      <SidebarItem :item="item" />
+    </el-menu>
   </div>
 </template>
 <script>
+import SidebarItem from "./SiderbarItem";
 export default {
   name: "sidebar",
-  components: {},
+  components: {
+    SidebarItem,
+  },
   data() {
     return {
       permissionList: [
@@ -471,8 +487,42 @@ export default {
       ],
     };
   },
-  methods: {},
+  created() {
+    console.log(this.permissionList);
+  },
+  methods: {
+    //跳转主页
+    goHome() {},
+  },
+  computed: {
+    activeMenu() {
+      const { meta, path } = this.$route;
+      console.log(this.$route);
+      // 先判断是否有默认展开的菜单
+      if (meta.activeMenu) {
+        return meta.activeMenu;
+      }
+      return path;
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
+.siderwaaper {
+  width: 200px;
+  height: 100%;
+  background: #304156;
+  color: #fff;
+  .logobox {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    .logoimg {
+      width: 50px;
+      height: 50px;
+      margin-right: 5px;
+    }
+  }
+}
 </style>
