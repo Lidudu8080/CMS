@@ -44,5 +44,9 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "main": "index.js",
+  "repository": "https://github.com/Lidudu8080/CMS.git",
+  "author": "Lidudu8080 <lmc9999882@163.com>",
+  "license": "MIT"
 }

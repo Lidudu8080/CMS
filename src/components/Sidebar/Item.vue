@@ -15,6 +15,7 @@ export default {
   },
   render(h, context) {
     const { icon, title } = context.props;
+    console.log(icon, title, "icon, title");
     const vnodes = [];
     const classStr = "iconfont icon-" + icon;
     if (icon) {

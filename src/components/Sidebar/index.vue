@@ -1,23 +1,27 @@
 <template>
-  <div class="siderwaaper">
-    <div class="logobox" @click="goHome()">
-      <p>
-        <img src="@/assets/logo.png" class="logoimg" />
+  <div class="has-logo">
+    <div @click="goHome" class="system-title">
+      <p @click="goHome" class="system-title">
+        <img src="../../assets/logo.png" alt="" />
+        CMS页面配置系统
       </p>
-    
     </div>
-
     <el-menu
       :default-active="activeMenu"
       :collapse="true"
       background-color="#304156"
       text-color="#bfcbd9"
-      active-text-color="#409eff"
+      :unique-opened="true"
+      active-text-color="#409EFF"
+      :collapse-transition="false"
       mode="vertical"
-      v-for="(item, index) in permissionList[0]"
-      :key="index"
     >
-      <SidebarItem :item="item" />
+      <sidebar-item
+        v-for="route in permissionList"
+        :key="route.path"
+        :item="route"
+        :base-path="route.path"
+      />
     </el-menu>
   </div>
 </template>
@@ -487,12 +491,11 @@ export default {
       ],
     };
   },
-  created() {
-    console.log(this.permissionList);
-  },
   methods: {
     //跳转主页
-    goHome() {},
+    goHome() {
+      this.$router.push("/home");
+    },
   },
   computed: {
     activeMenu() {
@@ -508,21 +511,25 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.siderwaaper {
-  width: 200px;
-  height: 100%;
-  background: #304156;
+.menu-nodata {
+  padding-top: 25px;
+  color: #ccc;
+  text-align: center;
+  font-size: 14px;
+}
+.system-title {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 16px;
   color: #fff;
-  .logobox {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    .logoimg {
-      width: 50px;
-      height: 50px;
-      margin-right: 5px;
-    }
+  text-align: center;
+  img {
+    margin-right: 5px;
+    width: 50px;
+    height: 50px;
   }
 }
 </style>

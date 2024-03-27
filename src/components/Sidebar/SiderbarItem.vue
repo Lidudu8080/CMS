@@ -8,7 +8,10 @@
         !item.alwaysShow
       "
     >
-      <app-link>
+      <app-link
+        v-if="item.redirect != 'noRedirect' && onlyOneChild.meta"
+        :to="resolvePath(onlyOneChild.path)"
+      >
         <el-menu-item :index="resolvePath(onlyOneChild.path)">
           <i class="el-icon-tickets"></i>
           {{ onlyOneChild.meta.title }}
@@ -36,8 +39,11 @@
   </div>
 </template>
 <script>
+import path from "path";
 import AppLink from "./Link";
 import Item from "./Item";
+import { Validator } from "@bigbighu/cms-utils";
+
 export default {
   name: "SidebarItem",
   components: {
@@ -72,8 +78,6 @@ export default {
       }
       return path.resolve(this.basePath, routePath);
     },
-  },
-  computed: {
     // 判断菜单项是否有子菜单，没有就是一级菜单，有就是多级菜单
     hasOneShowingChild(children = [], parent) {
       // 判断子菜单有没有数据
@@ -93,7 +97,19 @@ export default {
       return false;
     },
   },
+  computed: {},
 };
 </script>
 <style lang="less" scoped>
+#app .hideSidebar .el-submenu > .el-submenu__title .iconfont {
+  margin-left: 18px;
+}
+#app .el-menu-item {
+  width: 200px;
+  display: flex;
+  align-items: center;
+}
+#app .el-menu-item [class^="el-icon-"] {
+  font-size: 20px;
+}
 </style>
