@@ -19,7 +19,7 @@ export default {
     return {};
   },
   methods: {},
-};
+};   
 </script>
 <style lang="less" scoped>
 .jjj {
