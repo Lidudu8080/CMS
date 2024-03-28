@@ -1,13 +1,22 @@
 <template>
-  <div class="jjj">
+  <div class="nav_wapper">
     <Hamburg />
     <bread-crumb></bread-crumb>
-    <el-avatar :size="size" :src="circleUrl"></el-avatar>
+
+    <el-dropdown>
+      <span class="el-dropdown-link">
+        <el-avatar :size="size" :src="circleUrl"></el-avatar>
+        <i class="el-icon-arrow-down el-icon--right"></i>
+      </span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item>登出</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
   </div>
 </template>
 <script>
 import Hamburg from "../Hamburg";
-import BreadCrumb from "../BreadCrumb";  
+import BreadCrumb from "../BreadCrumb";
 
 export default {
   name: "navbar",
@@ -19,11 +28,13 @@ export default {
     return {};
   },
   methods: {},
-};   
+};
 </script>
 <style lang="less" scoped>
-.jjj {
+.nav_wapper {
   height: 48px;
   background: #ccc;
+  display: flex;
+  align-items: center;
 }
 </style>
