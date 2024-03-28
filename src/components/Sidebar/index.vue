@@ -523,9 +523,6 @@ export default {
 }
 
 .system-title {
-  width: 200px;
-  background: #1f2d3d;
-
   cursor: pointer;
   display: flex;
   justify-content: center;
