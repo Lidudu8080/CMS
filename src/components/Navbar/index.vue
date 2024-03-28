@@ -7,7 +7,7 @@
 </template>
 <script>
 import Hamburg from "../Hamburg";
-import BreadCrumb from "../BreadCrumb";
+import BreadCrumb from "../BreadCrumb";  
 
 export default {
   name: "navbar",
