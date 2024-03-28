@@ -1,6 +1,6 @@
 <template>
   <div class="has-logo">
-    <div @click="goHome" class="system-title">
+    <div>
       <p @click="goHome" class="system-title">
         <img src="../../assets/logo.png" alt="" />
         CMS页面配置系统
@@ -517,7 +517,15 @@ export default {
   text-align: center;
   font-size: 14px;
 }
+
+.has-logo {
+  width: 200px;
+}
+
 .system-title {
+  width: 200px;
+  background: #1f2d3d;
+
   cursor: pointer;
   display: flex;
   justify-content: center;

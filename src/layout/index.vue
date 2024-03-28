@@ -1,8 +1,10 @@
 <template>
   <div class="app-wrapper">
     <Sidebar />
-    <Navbar />
-    <AppMain />
+    <div class="main-container">
+      <Navbar />
+      <AppMain />
+    </div>
   </div>
 </template>
 <script>
