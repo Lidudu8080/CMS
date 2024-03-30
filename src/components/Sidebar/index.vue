@@ -3,7 +3,7 @@
     <div>
       <p @click="goHome" class="system-title">
         <img src="../../assets/logo.png" alt="" />
-        CMS页面配置系统
+        12345678
       </p>
     </div>
     <el-menu

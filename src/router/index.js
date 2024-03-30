@@ -23,8 +23,12 @@ const constantRoutes = [
         meta: { title: "活动管理" },
         component: () => import("@/pages/activity"),
       },
-      // 可以继续添加更多的子路由...
     ],
+  },
+  {
+    path: "/decorate",
+    name: "decorate",
+    component: () => import("@/pages/decorate"),
   },
 ];
 

@@ -5,7 +5,7 @@
         <!-- <img class="avatar" src="../../assets/default-avatar.gif" alt="" /> -->
         <div>
           <h2>909089890</h2>
-          <p style="margin-top: 5px">按时发萨法考了几分</p>
+          <p style="margin-top: 5px" @click="onEdit(1)">23456</p>
         </div>
       </div>
     </el-card>
@@ -17,6 +17,13 @@ export default {
   name: "activity",
   data() {
     return {};
+  },
+  methods: {
+    // 编辑
+    onEdit(id) {
+      console.log(this.$router, "router");
+      this.$router.push({ path: "/decorate", query: { id } });
+    },
   },
 };
 </script>
