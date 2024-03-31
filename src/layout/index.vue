@@ -1,7 +1,6 @@
 <template>
   <div class="app-wrapper">
     <Sidebar class="sidebar-container" />
-
     <Navbar />
     <AppMain />
   </div>

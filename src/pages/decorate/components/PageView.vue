@@ -1,5 +1,5 @@
 <template>
-  <div class="page-view"></div>
+  <div class="page-view" @dragover="dragovered($event)"></div>
 </template>
 <script>
 export default {
@@ -9,21 +9,23 @@ export default {
   },
 
   methods: {
-
-    
+    dragovered(event) {
+      console.log(event.dataTransfer, "放置");
+    },
   },
 };
 </script>
 <style lang="less" scoped>
 .page-view {
   position: absolute;
-  top: 56px;
-  left: 186px;
-  right: 376px;
-  bottom: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 650px;
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: #f7f8fa;
+  background-color: #fff;
   display: flex;
   justify-content: center;
   user-select: none;
