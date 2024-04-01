@@ -13,8 +13,10 @@
           :key="size"
         >
           <li
-            class=""
-            draggable="true"
+            :class="
+              draggableEnable(component) ? 'drag-enabled' : 'drag-disabled'
+            "
+            :draggable="draggableEnable(component)"
             @dragstart="onDragestart(component, $event)"
             @dragend="onDragend($event)"
           >
@@ -23,7 +25,11 @@
               {{ component.name }}
             </p>
             <p class="num">
-              {{ component.maxNumForAdd }}
+              {{
+                `${componentMap[component.data.component] || 0}/${
+                  component.maxNumForAdd
+                }`
+              }}
             </p>
           </li>
         </ul>
@@ -39,11 +45,16 @@ export default {
   data() {
     return {
       componentlist,
+      activeNames: [1, 2],
     };
   },
   created() {},
   computed: {
     ...mapState(["dragComponent"]),
+
+    componentMap() {
+      return this.$store.getters.pageComponentTotalMap;
+    },
   },
 
   methods: {
@@ -55,6 +66,11 @@ export default {
     },
     onDragend() {
       this.SET_DRAG_STATE(false);
+    },
+    // 判断组件是否可以被拖动
+    draggableEnable(component) {
+      let curNum = this.componentMap[component.data.component] || 0;
+      return curNum < component.maxNumForAdd;
     },
   },
 };

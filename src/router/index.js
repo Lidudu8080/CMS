@@ -26,6 +26,13 @@ const constantRoutes = [
     ],
   },
   {
+    path: "/login",
+    component: () => import("../pages/login/index.vue"),
+    name: "Login",
+    hidden: true,
+    meta: { title: "登录" },
+  },
+  {
     path: "/decorate",
     name: "decorate",
     component: () => import("@/pages/decorate"),
