@@ -8,24 +8,23 @@
         </div>
       </div>
 
-       <!-- iframe内容 -->
-    <div class="preview-wrap">
-      <iframe
-        id="previewIframe"
-        class="preview-iframe"
-        :src="previewSrc"
-        title="频道名称"
-        frameborder="0"
-        allowfullscreen
-        width="100%"
-        :height="previewHeight"
-        @load="onloadH5"
-      >
-      </iframe>
-    </div>
+      <!-- iframe内容 -->
+      <div class="preview-wrap">
+        <iframe
+          id="previewIframe"
+          class="preview-iframe"
+          :src="previewSrc"
+          title="频道名称"
+          frameborder="0"
+          allowfullscreen
+          width="100%"
+          :height="previewHeight"
+          @load="onloadH5"
+        >
+        </iframe>
+      </div>
     </div>
 
-   
     <div
       v-if="dragActive"
       class="preview-drag-mask"
@@ -39,18 +38,19 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import settings from "@/config";
 
 export default {
   name: "PageView",
   data() {
-    return {
-      dragActive: false,
-    };
+    return {};
+  },
+  mounted() {
+    this.initMessage();
   },
   computed: {
-    ...mapState(["pageData",'previewHeight']),
+    ...mapState(["pageData", "previewHeight", "dragActive"]),
     previewSrc() {
       return (
         settings.decorateViewSrc +
@@ -59,8 +59,13 @@ export default {
     },
   },
   methods: {
-    dragovered(event) {
-      console.log(event.dataTransfer, "放置");
+    ...mapActions(["initMessage"]),
+    onDragover(event) {
+      console.log(event, "放置");
+      event.preventDefault();
+    },
+    onDragout(event) {
+      console.log(event, "移开");
     },
     onloadH5() {
       this.$store.commit("VIEW_UPDATE");
@@ -69,6 +74,11 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+/* 隐藏滚动条 */
+::-webkit-scrollbar {
+  display: none;
+}
+
 .page-view {
   position: absolute;
   top: 50%;
