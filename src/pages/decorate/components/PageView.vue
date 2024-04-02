@@ -1,14 +1,12 @@
 <template>
-  <div class="page-view">
-    <!-- H5手机导航栏 -->
+  <div ref="pageView" class="page-view">
+    <!-- H5导航栏 -->
     <div class="preview">
       <div class="preview-head">
         <div class="preview-head-title">
           {{ pageData.name || "微页面标题" }}
         </div>
       </div>
-
-      <!-- iframe内容 -->
       <div class="preview-wrap">
         <iframe
           id="previewIframe"
@@ -20,25 +18,23 @@
           width="100%"
           :height="previewHeight"
           @load="onloadH5"
-        >
-        </iframe>
+        />
       </div>
+      <div
+        v-if="dragActive"
+        class="preview-drag-mask"
+        @dragover="onDragover($event)"
+      />
+      <div
+        v-if="dragActive"
+        class="preview-drag-out"
+        @dragover="onDragout($event)"
+      />
     </div>
-
-    <div
-      v-if="dragActive"
-      class="preview-drag-mask"
-      @dragover="onDragover($event)"
-    />
-    <div
-      v-if="dragActive"
-      class="preview-drag-out"
-      @dragover="onDragout($event)"
-    />
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 import settings from "@/config";
 
 export default {
@@ -50,7 +46,13 @@ export default {
     this.initMessage();
   },
   computed: {
-    ...mapState(["pageData", "previewHeight", "dragActive"]),
+    ...mapState([
+      "pageData",
+      "previewHeight",
+      "dragActive",
+      "componentsTopList",
+      "addComponentIndex",
+    ]),
     previewSrc() {
       return (
         settings.decorateViewSrc +
@@ -59,13 +61,35 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(["SET_DRAG_INDEX", "VIEW_ADD_PREVIEW"]),
     ...mapActions(["initMessage"]),
     onDragover(event) {
-      console.log(event, "放置");
+      console.log("放置");
       event.preventDefault();
+      const viewWrapTop = 191; // ifarm距离浏览器顶部高度
+      let dropTop = this.$refs.pageView.scrollTop + event.pageY - viewWrapTop; //获取到鼠标距离ifarm顶部的高度
+      let addIndex = 0;
+      for (let i = this.componentsTopList.length - 1; i >= 0; i--) {
+        const value = this.componentsTopList[i];
+        const prev = this.componentsTopList[i - 1] || 0;
+        const _half = (value - prev) / 2;
+        if (i === 0 && dropTop <= _half) break;
+        if (dropTop > value - _half) {
+          addIndex = i + 1;
+          break;
+        }
+      }
+      if (this.addComponentIndex === addIndex) return;
+      this.SET_DRAG_INDEX(addIndex);
+      this.VIEW_ADD_PREVIEW(addIndex);
     },
     onDragout(event) {
       console.log(event, "移开");
+      event.preventDefault();
+      if (this.addComponentIndex != null) {
+        this.SET_DRAG_INDEX(null);
+        this.VIEW_DELETE_PREVIEW();
+      }
     },
     onloadH5() {
       this.$store.commit("VIEW_UPDATE");

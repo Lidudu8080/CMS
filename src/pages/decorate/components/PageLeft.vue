@@ -1,23 +1,23 @@
 <template>
   <div class="page-left">
+    <!-- 页面可选组件列表 -->
     <el-collapse v-model="activeNames">
       <el-collapse-item
-        :title="item.title"
-        class="component-item"
         v-for="(item, index) in componentlist"
         :key="index"
+        class="component-item"
+        :title="item.title"
+        :name="index + 1"
       >
-        <ul
-          class="component-list"
-          v-for="(component, size) in item.components"
-          :key="size"
-        >
+        <ul class="component-list">
           <li
+            v-for="(component, size) in item.components"
+            :key="size"
             :class="
               draggableEnable(component) ? 'drag-enabled' : 'drag-disabled'
             "
             :draggable="draggableEnable(component)"
-            @dragstart="onDragestart(component, $event)"
+            @dragstart="onDragstart(component, $event)"
             @dragend="onDragend($event)"
           >
             <i :class="component.iconClass" style="font-size: 28px" />
@@ -34,40 +34,61 @@
           </li>
         </ul>
       </el-collapse-item>
+      <!-- </div> -->
     </el-collapse>
+    <!-- 页面可选组件列表 end -->
   </div>
 </template>
+
 <script>
-import { mapMutations, mapState } from "vuex";
 import componentlist from "@/config/component-list";
+import { mapState, mapMutations, mapActions } from "vuex";
+
 export default {
   name: "PageLeft",
   data() {
     return {
       componentlist,
-      activeNames: [1, 2],
+      activeNames: [1, 2], // 组件列表展开、收缩效果
     };
   },
-  created() {},
   computed: {
-    ...mapState(["dragComponent"]),
-
     componentMap() {
+      // 预览页面组件数量
       return this.$store.getters.pageComponentTotalMap;
     },
+    // 从公共数据源中获取可选组件列表
+    ...mapState(["dragComponent", "addComponentIndex"]),
   },
-
   methods: {
-    ...mapMutations(["SET_DRAG_STATE", "SET_DRAG_COMPONENT"]),
-
-    onDragestart(component) {
+    ...mapMutations([
+      "SET_DRAG_STATE",
+      "SET_DRAG_COMPONENT",
+      "SET_DRAG_INDEX",
+      "VIEW_SET_ACTIVE",
+    ]),
+    ...mapActions(["pageChange"]),
+    // 开始拖动组件
+    onDragstart(component, event) {
+      console.log("开始拖动组件", component, event);
       this.SET_DRAG_STATE(true);
       this.SET_DRAG_COMPONENT(JSON.parse(JSON.stringify(component)));
     },
     onDragend() {
       this.SET_DRAG_STATE(false);
+      let addIndex = this.addComponentIndex;
+      if (addIndex != null) {
+        console.log("生成组件");
+        this.pageChange({
+          type: "add",
+          index: addIndex,
+          data: this.dragComponent,
+        });
+        this.SET_DRAG_INDEX(null);
+        console.log(addIndex, "addIndex");
+        this.VIEW_SET_ACTIVE(addIndex);
+      }
     },
-    // 判断组件是否可以被拖动
     draggableEnable(component) {
       let curNum = this.componentMap[component.data.component] || 0;
       return curNum < component.maxNumForAdd;
@@ -75,7 +96,9 @@ export default {
   },
 };
 </script>
+
 <style lang="less" scoped>
+// 左侧框架
 .page-left {
   position: absolute;
   top: 56px;
@@ -87,10 +110,6 @@ export default {
   background: #fff;
   user-select: none;
 }
-/* 隐藏滚动条 */
-::-webkit-scrollbar {
-  display: none;
-}
 
 // 组件列表
 .component-item {
@@ -98,9 +117,9 @@ export default {
   margin-top: 22px;
   .component-list {
     overflow: hidden;
-    width: 50%;
-
     li {
+      float: left;
+      width: 50%;
       font-size: 12px;
       padding-bottom: 8px;
       text-align: center;
@@ -154,10 +173,6 @@ export default {
     border: none;
   }
   /deep/ .el-collapse-item__content {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
     padding-bottom: 0;
   }
 }
