@@ -38,14 +38,14 @@ const emptyPageData = {
 
 const store = new Vuex.Store({
     state: {
-        setType: 1,
+        setType: 1, //1页面2组件内容
         dialogImageVisible: false,
         upLoadImgSuccess: null,
         pageData: JSON.parse(JSON.stringify(emptyPageData)),
         activeComponentId: null,
         dragActive: false,  //是否被拖动
         dragComponent: {},  //被拖动对象
-        addComponentIndex: null,
+        addComponentIndex: null,  //要添加的目标位置
         previewHeight: '',
         componentsTopList: '',
         wxParams: JSON.stringify({ isLogin: true }) // h5参数
@@ -55,11 +55,11 @@ const store = new Vuex.Store({
         SET_INIT_PAGE_DATA(state) {
             state.pageData = JSON.parse(JSON.stringify(emptyPageData))
         },
-        // 修改当前设置内容（页面 or 组件）
+        // 修改tab切换页面/组件
         SET_SETTYPE(state, value) {
             state.setType = value
         },
-        // 修改页面属性配置
+        // 修改h5页面配置
         SET_PAGE_CONFIG(state, config) {
             Object.keys(config).forEach(item => {
                 state.pageData[item] = config[item]
@@ -132,8 +132,7 @@ const store = new Vuex.Store({
         // 向H5页面发送更改后的数据
         // disabledRestHeight: 是否将h5组件高度更新到cms
         VIEW_UPDATE(state, disabledRestHeight = false) {
-            console.log('向H5发送更改后的数据')
-            console.log(state.pageData)
+            console.log(state.pageData, '更新后的H5数据')
             messager.emit('pageChange', {
                 disabledRestHeight,
                 value: state.pageData

@@ -3,12 +3,14 @@
     <page-head></page-head>
     <page-left></page-left>
     <page-view></page-view>
+    <page-right></page-right>
   </div>
 </template>
 <script>
 import PageLeft from "./components/PageLeft";
 import PageView from "./components/PageView";
 import PageHead from "./components/PageHead";
+import PageRight from "./components/PageRight";
 
 import { getCmsPageById } from "@/api/activity";
 import { createRandomId } from "@/utils";
@@ -17,6 +19,7 @@ export default {
     PageLeft,
     PageView,
     PageHead,
+    PageRight,
   },
   data() {
     return {};

@@ -1,6 +1,5 @@
 <template>
   <div class="page-left">
-    <!-- 页面可选组件列表 -->
     <el-collapse v-model="activeNames">
       <el-collapse-item
         v-for="(item, index) in componentlist"
@@ -34,9 +33,7 @@
           </li>
         </ul>
       </el-collapse-item>
-      <!-- </div> -->
     </el-collapse>
-    <!-- 页面可选组件列表 end -->
   </div>
 </template>
 
@@ -49,15 +46,13 @@ export default {
   data() {
     return {
       componentlist,
-      activeNames: [1, 2], // 组件列表展开、收缩效果
+      activeNames: [1, 2],
     };
   },
   computed: {
     componentMap() {
-      // 预览页面组件数量
       return this.$store.getters.pageComponentTotalMap;
     },
-    // 从公共数据源中获取可选组件列表
     ...mapState(["dragComponent", "addComponentIndex"]),
   },
   methods: {
@@ -68,17 +63,21 @@ export default {
       "VIEW_SET_ACTIVE",
     ]),
     ...mapActions(["pageChange"]),
-    // 开始拖动组件
+    // 拖动开始
     onDragstart(component, event) {
-      console.log("开始拖动组件", component, event);
+      console.log("拖动组件", component, event);
+      //1.把拖动状态设置为true,(iframe内部根据这个状态来监听iframe页面被移入的事件触不触发)
+      // 拖动的组件数据存起来，然后在iframe内部获取到存入的数据，并通过跨源通信传递给iframe(crs项目)页面
       this.SET_DRAG_STATE(true);
       this.SET_DRAG_COMPONENT(JSON.parse(JSON.stringify(component)));
     },
+    //拖动结束
     onDragend() {
+      //把拖动状态设置为false,
       this.SET_DRAG_STATE(false);
       let addIndex = this.addComponentIndex;
       if (addIndex != null) {
-        console.log("生成组件");
+        console.log("生成组件11111111");
         this.pageChange({
           type: "add",
           index: addIndex,

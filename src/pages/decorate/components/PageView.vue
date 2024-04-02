@@ -43,6 +43,7 @@ export default {
     return {};
   },
   mounted() {
+    //这个initMessage方法，是获取crs项目中的一些数据()
     this.initMessage();
   },
   computed: {
@@ -64,9 +65,11 @@ export default {
     ...mapMutations(["SET_DRAG_INDEX", "VIEW_ADD_PREVIEW"]),
     ...mapActions(["initMessage"]),
     onDragover(event) {
+      //当被拖动的元素进入到iframe页面时，需要根据公式计算出现在鼠标相对于iframe页面顶部的距离
+      //获取到距离后，通过循环获取到的iframe页面的数据
       console.log("放置");
       event.preventDefault();
-      const viewWrapTop = 191; // ifarm距离浏览器顶部高度
+      const viewWrapTop = 191; // ifarm顶部距离浏览器顶部高度
       let dropTop = this.$refs.pageView.scrollTop + event.pageY - viewWrapTop; //获取到鼠标距离ifarm顶部的高度
       let addIndex = 0;
       for (let i = this.componentsTopList.length - 1; i >= 0; i--) {
@@ -85,7 +88,7 @@ export default {
     },
     onDragout(event) {
       console.log(event, "移开");
-      event.preventDefault();
+      event.preventDefault(); //允许移入，阻止默认行为
       if (this.addComponentIndex != null) {
         this.SET_DRAG_INDEX(null);
         this.VIEW_DELETE_PREVIEW();
