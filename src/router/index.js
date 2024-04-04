@@ -22,7 +22,7 @@ const constantRoutes = [
         name: "activity",
         meta: { title: "活动管理" },
         component: () => import("@/pages/activity"),
-      },
+      }, 
     ],
   },
   {
@@ -36,6 +36,11 @@ const constantRoutes = [
     path: "/decorate",
     name: "decorate",
     component: () => import("@/pages/decorate"),
+  },
+  {
+    path: '/preview',
+    name: 'preview',
+    component: () => import('../pages/preview/index')
   },
 ];
 

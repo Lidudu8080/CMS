@@ -8,7 +8,6 @@
     </div>
     <!-- 组件设置 -->
     <div v-show="setType === 2">
-      {{ currentComponent.data.component }}
       <ComTitle
         :title="(currentComponent && currentComponent.name) || '组件管理'"
       />
