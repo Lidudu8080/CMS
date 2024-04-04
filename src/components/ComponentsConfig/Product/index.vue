@@ -240,7 +240,7 @@ export default {
   },
   watch: {
     configData: {
-      handler: function(newVal, oldVal) {
+      handler: function(newVal) {
         // 更新组件配置数据
         this.$emit('editComponent', newVal)
       },

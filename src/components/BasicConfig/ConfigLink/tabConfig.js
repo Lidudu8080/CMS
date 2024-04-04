@@ -1,31 +1,35 @@
-import {productListApi, singleCouponListAPi, couponBagListApi, activityListApi} from '@/api/link'
-import { activityStatusArr } from '@/config/coupon'
-import { dayjs } from 'dayjs'
+import {
+  productListApi,
 
-const effectiveTimeFormatter = (row) => {
-  const {effectiveType, effectiveStartTime, effectiveEndTime, effectiveDay} = row
-  if (effectiveType === 2) {
-    let s = effectiveStartTime ? dayjs(effectiveStartTime).format('YYYY-MM-DD hh:mm:ss') : ''
-    let e = effectiveEndTime ? dayjs(effectiveEndTime).format('YYYY-MM-DD hh:mm:ss') : ''
-    return `${s}至${e}`
-  } else {
-    return `领取后${effectiveDay}天内有效`
-  }
-}
-// 创建时间格式化
-const createdTimeFormatter = (row) => {
-  return row.createdTime ? dayjs(row.createdTime).format('YYYY-MM-DD hh:mm:ss') : ''
-}
-// 活动有效期格式化
-const activeTimeFormatter = (row) => {
-  let s = row.activityStartTime ? dayjs(row.activityStartTime).format('YYYY-MM-DD hh:mm:ss') : ''
-  let e = row.activityEndTime ? dayjs(row.activityEndTime).format('YYYY-MM-DD hh:mm:ss') : ''
-  return `${s}至${e}`
-}
-// 状态格式化
-const activityStatusFormatter = (row) => {
-  return activityStatusArr.find(i => i.value === row.activityStatus).label
-}
+  // singleCouponListAPi, couponBagListApi, activityListApi
+} from '@/api/link'
+// import { activityStatusArr } from '@/config/coupon'
+// import { dayjs } from 'dayjs'
+
+// const effectiveTimeFormatter = (row) => {
+//   const {effectiveType, effectiveStartTime, effectiveEndTime, effectiveDay} = row
+//   if (effectiveType === 2) {
+//     let s = effectiveStartTime ? dayjs(effectiveStartTime).format('YYYY-MM-DD hh:mm:ss') : ''
+//     let e = effectiveEndTime ? dayjs(effectiveEndTime).format('YYYY-MM-DD hh:mm:ss') : ''
+//     return `${s}至${e}`
+//   } else {
+//     return `领取后${effectiveDay}天内有效`
+//   }
+// }
+// // 创建时间格式化
+// const createdTimeFormatter = (row) => {
+//   return row.createdTime ? dayjs(row.createdTime).format('YYYY-MM-DD hh:mm:ss') : ''
+// }
+// // 活动有效期格式化
+// const activeTimeFormatter = (row) => {
+//   let s = row.activityStartTime ? dayjs(row.activityStartTime).format('YYYY-MM-DD hh:mm:ss') : ''
+//   let e = row.activityEndTime ? dayjs(row.activityEndTime).format('YYYY-MM-DD hh:mm:ss') : ''
+//   return `${s}至${e}`
+// }
+// // 状态格式化
+// const activityStatusFormatter = (row) => {
+//   return activityStatusArr.find(i => i.value === row.activityStatus).label
+// }
 export default [
   {
     clickType: 1,

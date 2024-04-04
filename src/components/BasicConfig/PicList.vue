@@ -129,7 +129,7 @@ export default {
   watch: {
     // 监听当前图片列表数据项修改
     picData: {
-      handler: function (newVal, oldVal) {
+      handler: function (newVal) {
         console.log('图片列表配置修改', newVal)
         this.$emit('update:imageList', newVal)
       },

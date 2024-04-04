@@ -1,35 +1,58 @@
 <template>
   <div class="page-right">
-    <!-- 左侧tab(页面和组件之间的切换) -->
-    <ChangeSetType v-model="setType"></ChangeSetType>
-
-    <!-- 页面 -->
+    <!-- 切换 页面和组件-->
+    <ChangeSetType v-model="setType" />
+    <!-- 页面设置 -->
     <div v-show="setType === 1">
       <SetPageInfo />
     </div>
-
-    <!-- 组件 -->
-    <div v-show="setType === 2"></div>
+    <!-- 组件设置 -->
+    <div v-show="setType === 2">
+      {{ currentComponent.data.component }}
+      <ComTitle
+        :title="(currentComponent && currentComponent.name) || '组件管理'"
+      />
+      <ComValidTime
+        v-if="currentComponent"
+        v-model="currentComponent.data.validTime"
+      />
+      <component
+        :is="currentComponent.data.component"
+        v-if="currentComponent"
+        :key="currentComponent.id"
+        :parmes="currentComponent.data"
+        @editComponent="editComponent"
+      />
+      <NoSelect v-else />
+    </div>
   </div>
 </template>
+
 <script>
-// 动态引入组件
-// import { dynamicComponents } from "@/utils";
+import { mapState, mapActions } from "vuex";
 import ChangeSetType from "./components/ChangeSetType";
+import ComTitle from "@/components/BasicUi/ComTitle";
+import NoSelect from "./components/NoSelect";
 import SetPageInfo from "./components/SetPageInfo";
+import ComValidTime from "../../../components/BasicUi/ComValidTime";
+
+import { dynamicComponents } from "@/utils";
 
 export default {
   name: "PageRight",
+  components: {
+    ChangeSetType,
+    ComTitle,
+    NoSelect,
+    SetPageInfo,
+    ComValidTime,
+    ...dynamicComponents(),
+  },
   data() {
     return {};
   },
-  components: {
-    ChangeSetType,
-    SetPageInfo,
-
-    // ...dynamicComponents(),
-  },
   computed: {
+    ...mapState(["pageData", "activeComponentId"]),
     setType: {
       get: function () {
         return this.$store.state.setType;
@@ -38,10 +61,28 @@ export default {
         this.$store.commit("SET_SETTYPE", val);
       },
     },
+    currentComponent() {
+      let list = this.pageData.componentList;
+      return list && list.length > 0
+        ? list.find((item) => item.id === this.activeComponentId)
+        : null;
+    },
   },
-  methods: {},
+  methods: {
+    ...mapActions(["pageChange"]),
+    // 更新
+    editComponent(data) {
+      console.log("修改store数据");
+      this.pageChange({
+        type: "edit",
+        id: this.activeComponentId,
+        data,
+      });
+    },
+  },
 };
 </script>
+
 <style lang="less">
 @import url("~@/styles/icon.less");
 

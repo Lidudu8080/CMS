@@ -1,6 +1,6 @@
 <template>
   <div ref="pageView" class="page-view">
-    <!-- H5导航栏 -->
+    <!-- H5预览模块 -->
     <div class="preview">
       <div class="preview-head">
         <div class="preview-head-title">
@@ -33,25 +33,24 @@
     </div>
   </div>
 </template>
+
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import settings from "@/config";
 
 export default {
   name: "PageView",
   data() {
-    return {};
-  },
-  mounted() {
-    //这个initMessage方法，是获取crs项目中的一些数据()
-    this.initMessage();
+    return {
+      showHasCache: false,
+    };
   },
   computed: {
     ...mapState([
       "pageData",
       "previewHeight",
-      "dragActive",
       "componentsTopList",
+      "dragActive",
       "addComponentIndex",
     ]),
     previewSrc() {
@@ -61,16 +60,21 @@ export default {
       );
     },
   },
+  mounted() {  
+    this.initMessage();
+  },
   methods: {
-    ...mapMutations(["SET_DRAG_INDEX", "VIEW_ADD_PREVIEW"]),
+    ...mapMutations([
+      "SET_DRAG_INDEX",
+      "VIEW_ADD_PREVIEW",
+      "VIEW_DELETE_PREVIEW",
+    ]),
     ...mapActions(["initMessage"]),
     onDragover(event) {
-      //当被拖动的元素进入到iframe页面时，需要根据公式计算出现在鼠标相对于iframe页面顶部的距离
-      //获取到距离后，通过循环获取到的iframe页面的数据
-      console.log("放置");
-      event.preventDefault();
-      const viewWrapTop = 191; // ifarm顶部距离浏览器顶部高度
-      let dropTop = this.$refs.pageView.scrollTop + event.pageY - viewWrapTop; //获取到鼠标距离ifarm顶部的高度
+      event.preventDefault(); // 当前区域可以被进入
+      const viewWrapTop = 191;
+      let dropTop = this.$refs.pageView.scrollTop + event.pageY - viewWrapTop;
+      console.log(dropTop, "距离");
       let addIndex = 0;
       for (let i = this.componentsTopList.length - 1; i >= 0; i--) {
         const value = this.componentsTopList[i];
@@ -82,13 +86,14 @@ export default {
           break;
         }
       }
+      // 添加
       if (this.addComponentIndex === addIndex) return;
       this.SET_DRAG_INDEX(addIndex);
       this.VIEW_ADD_PREVIEW(addIndex);
     },
+    // 删除
     onDragout(event) {
-      console.log(event, "移开");
-      event.preventDefault(); //允许移入，阻止默认行为
+      event.preventDefault();
       if (this.addComponentIndex != null) {
         this.SET_DRAG_INDEX(null);
         this.VIEW_DELETE_PREVIEW();
@@ -100,22 +105,17 @@ export default {
   },
 };
 </script>
-<style lang="less" scoped>
-/* 隐藏滚动条 */
-::-webkit-scrollbar {
-  display: none;
-}
 
+<style lang="less" scoped>
 .page-view {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 375px;
-  height: 650px;
+  top: 56px;
+  left: 186px;
+  right: 376px;
+  bottom: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: #fff;
+  background-color: #f7f8fa;
   display: flex;
   justify-content: center;
   user-select: none;
@@ -152,7 +152,7 @@ export default {
   .preview-head {
     height: @content-header-height;
     width: 375px;
-    margin: 0 auto 0;
+    margin: 72px auto 0;
     background: url("~@/assets/img/layout/header_bg.png") left top no-repeat;
     background-size: cover;
     position: relative;

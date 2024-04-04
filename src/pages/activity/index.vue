@@ -2,7 +2,6 @@
   <div class="view">
     <el-card class="card">
       <div class="flex">
-        <!-- <img class="avatar" src="../../assets/default-avatar.gif" alt="" /> -->
         <div>
           <h2>909089890</h2>
           <p style="margin-top: 5px" @click="onEdit(412)">23456</p>

@@ -24,7 +24,7 @@ export default {
         this.clearData()
       }
     },
-    onDataChange(data) {
+    onDataChange() {
       this.$refs['formRef'].validate((valid) => {
         this.hasError = !valid
         if (valid) {

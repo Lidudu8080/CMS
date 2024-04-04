@@ -3,21 +3,6 @@ export const isEmpty = val => {
 }
 
 /**
- * @name: 根据目录动态注册配置组件
- * @return {Object} 动态注册的组件名及对应引入的组件文件，可直接用于Vue中的components属性中
- */
-// export function dynamicComponents() {
-//   let components = {}
-//   const dycomponent = require.context('@/components/ComponentsConfig', true, /\.vue$/)
-//   dycomponent.keys().map(item => {
-//     // 动态注册组件对应的配置文件
-//     const name = item.split('/')[1]
-//     components[name] = dycomponent(item).default
-//   })
-//   return components
-// }
-
-/**
  * @name: 父级窗口搭建页面与H5预览页面跨源通信函数
  * @param {Window} win  要接收消息的目标窗口
  * @param {String} targetOrigin  指定win中可以接收到消息的origin
@@ -62,6 +47,29 @@ export class Messager {
   destroy() {
     window.removeEventListener('message', this.messageListener)
   }
+}
+
+/**
+ * 生成随机id 添加组件时生成
+ */
+export function createRandomId() {
+  return Number(Math.random().toString().substr(3, 5) + Date.now()).toString(36)
+}
+
+
+/**
+ * @name: 根据目录动态注册配置组件
+ * @return {Object} 动态注册的组件名及对应引入的组件文件，可直接用于Vue中的components属性中
+ */
+export function dynamicComponents() {
+  let components = {}
+  const dycomponent = require.context('@/components/ComponentsConfig', true, /\.vue$/)
+  dycomponent.keys().map(item => {
+    // 动态注册组件对应的配置文件
+    const name = item.split('/')[1]
+    components[name] = dycomponent(item).default
+  })
+  return components
 }
 
 /**
@@ -115,11 +123,4 @@ export function throttle(func, wait = 500, immediate) {
       timer = null
     }, wait)
   }
-}
-
-/**
- * 生成随机id 添加组件时生成
- */
-export function createRandomId() {
-  return Number(Math.random().toString().substr(3, 5) + Date.now()).toString(36)
 }

@@ -2,7 +2,6 @@
   <div class="view">
     <el-card class="card">
       <div class="flex">
-        <!-- <img class="avatar" src="../../assets/default-avatar.gif" alt="" /> -->
         <div>
           <h2>{{ username }}</h2>
           <p style="margin-top: 5px">管理员</p>
@@ -15,13 +14,11 @@
         <div class="title">CMS移动端页面配置系统</div>
         <div class="desc">一套用于解决小程序活动页面发版问题的低代码平台</div>
       </div>
-      <!-- <img src="../../assets/welcome.png" alt="" /> -->
     </div>
   </div>
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
 export default {
   name: "About",
   data() {
@@ -35,8 +32,6 @@ export default {
 <style lang="less" scoped>
 .card {
   width: 329px;
-  // height: 183px;
-  // overflow: hidden;
   display: flex;
   align-items: center;
   .avatar {

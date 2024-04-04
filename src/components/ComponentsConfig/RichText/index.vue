@@ -76,7 +76,7 @@ export default {
   watch: {
     // 监听当前组件配置及数据项修改
     configData: {
-      handler: function(newVal, oldVal) {
+      handler: function(newVal) {
         console.log('文本修改', newVal)
         // 更新组件配置数据
         this.$emit('editComponent', newVal)
@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     // 富文本组件图片上传
-    onChangeQuill(file, fileList) {
+    onChangeQuill(file) {
       if (file.status !== 'finished') return
       let quill = this.$refs.myTextEditor.quill
       let length = quill.getSelection().index

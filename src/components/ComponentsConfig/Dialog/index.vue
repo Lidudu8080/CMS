@@ -65,7 +65,7 @@ export default {
   watch: {
     // 监听当前组件配置及数据项修改
     configData: {
-      handler: function(newVal, oldVal) {
+      handler: function(newVal) {
         console.log('图文导航配置修改', newVal)
         // 更新组件配置数据
         this.$emit('editComponent', newVal)

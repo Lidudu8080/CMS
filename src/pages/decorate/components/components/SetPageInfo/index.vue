@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- 函数式组件，只显示内容，无逻辑处理 -->
     <ComTitle title="页面设置" />
 
     <ComGroup title="页面名称" name-black content-block>
@@ -10,6 +9,7 @@
         placeholder="请输入页面名称"
       />
     </ComGroup>
+
     <ComGroup title="微信分享文案" name-black content-block>
       <el-input
         v-model.lazy="shareDesc"
@@ -33,23 +33,50 @@
         @editImg="showDialogImage('shareImage')"
       />
     </ComGroup>
+
+    <ComDivider />
+
+    <ComGroup title="背景颜色">
+      <el-button
+        type="text"
+        class="mr-15"
+        @click="backgroundColor = initBgColor"
+      >
+        重置
+      </el-button>
+      <el-color-picker v-model="backgroundColor" size="small" />
+    </ComGroup>
+
+    <ComGroup title="背景图片">
+      <el-button type="text" class="mr-15" @click="backgroundImage = ''">
+        重置
+      </el-button>
+      <UpLoadBox
+        :img-url.sync="backgroundImage"
+        @editImg="showDialogImage('backgroundImage')"
+      />
+    </ComGroup>
+
+    <ComGroup v-if="backgroundImage" title="背景图片位置">
+      <el-radio v-model="backgroundPosition" label="top"> 居上 </el-radio>
+      <el-radio v-model="backgroundPosition" label="bottom"> 居底 </el-radio>
+    </ComGroup>
   </div>
 </template>
+
 <script>
 import ComTitle from "@/components/BasicUi/ComTitle";
 import ComGroup from "@/components/BasicUi/ComGroup";
+import ComDivider from "@/components/BasicUi/ComDivider";
 import UpLoadBox from "@/components/BasicUi/UpLoadBox";
 
 export default {
   name: "SetPageInfo",
-
-  components: {
-    ComTitle,
-    ComGroup,
-    UpLoadBox,
-  },
+  components: { ComTitle, ComGroup, ComDivider, UpLoadBox },
   data() {
-    return {};
+    return {
+      initBgColor: "",
+    };
   },
   computed: {
     name: {
@@ -64,20 +91,49 @@ export default {
       get: function () {
         return this.$store.state.pageData.shareDesc;
       },
-      set(val) {
+      set: function (val) {
         this.updatePageInfo({ shareDesc: val });
       },
     },
+    shareImage: {
+      get: function () {
+        return this.$store.state.pageData.shareImage;
+      },
+      set: function (val) {
+        this.updatePageInfo({ shareImage: val });
+      },
+    },
+    backgroundColor: {
+      get: function () {
+        return this.$store.state.pageData.backgroundColor;
+      },
+      set: function (val) {
+        this.updatePageInfo({ backgroundColor: val });
+      },
+    },
+    backgroundImage: {
+      get: function () {
+        return this.$store.state.pageData.backgroundImage;
+      },
+      set: function (val) {
+        this.updatePageInfo({ backgroundImage: val });
+      },
+    },
+    backgroundPosition: {
+      get: function () {
+        return this.$store.state.pageData.backgroundPosition;
+      },
+      set: function (val) {
+        this.updatePageInfo({ backgroundPosition: val });
+      },
+    },
   },
-  onLoad() {},
   methods: {
-    // 上传图片
     showDialogImage(key) {
-      // this.$store.commit("SET_UPIMAGE_VISIBLE", true);
-      // this.$store.commit("SET_UPIMAGE_FUC", this.upLoadImgSuccess);
+      this.$store.commit("SET_UPIMAGE_VISIBLE", true);
+      this.$store.commit("SET_UPIMAGE_FUC", this.upLoadImgSuccess);
       this.uploadKey = key;
     },
-    // 图片上传成功
     upLoadImgSuccess(imgUrl) {
       this[this.uploadKey] = imgUrl;
     },
@@ -87,5 +143,3 @@ export default {
   },
 };
 </script>
-<style lang="less" scoped>
-</style>

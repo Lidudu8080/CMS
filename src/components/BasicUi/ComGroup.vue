@@ -1,5 +1,4 @@
 <template>
-  <!-- 组件编辑模块 -->
   <div class="com-group" :class="{'com-group-bg-gray': bgGray}">
     <dl class="com-group-container" :class="{'com-group-container-block': contentBlock}">
       <dt v-if="title || selectValue" class="com-group-header">

@@ -4,9 +4,8 @@ import { Message } from 'element-ui'
 
 // 创建请求实例
 const service = axios.create({
-  baseURL, // url = base url + request url
-  // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 20000 // request timeout
+  baseURL,
+  timeout: 20000
 })
 
 // 添加请求拦截器
@@ -27,7 +26,6 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
-    console.log(res, 'res')
     // 接口请求失败提示
     if (res.code !== 10000) {
       Message.error(res.message);
@@ -39,12 +37,7 @@ service.interceptors.response.use(
     return res
   },
   error => {
-    console.log('err' + error) // for debug
-    // Message({
-    //   message: error.message,
-    //   type: 'error',
-    //   duration: 5 * 1000
-    // })
+    console.log('err' + error)
     return Promise.reject(error)
   }
 )

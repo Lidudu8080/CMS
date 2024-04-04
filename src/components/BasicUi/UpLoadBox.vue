@@ -61,7 +61,6 @@ export default {
       default: "添加图片",
     },
     uploadFile: {
-      // 是否用来上传本地文件
       type: Boolean,
       default: true,
     },
@@ -69,8 +68,8 @@ export default {
   data() {
     return {
       url: null,
-      actionUrl: upLoadUrl, // 上传图片接口地址
-      uploading: false, // 是否正在上传图片中
+      actionUrl: upLoadUrl,
+      uploading: false,
       headers: {
         "X-token": localStorage.getItem("token"),
       },
@@ -86,14 +85,16 @@ export default {
   },
   methods: {
     editImg() {
-      console.log(this.uploadFile, 111);
       if (this.uploadFile) {
+        console.log("1");
         this.$refs.upload.$el.querySelector("button").click();
       } else {
+        console.log("2");
+
         this.$emit("editImg");
       }
     },
-    // 上传图片前的验证方法
+    // 上传图片验证
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg" || file.type === "image/png";
       const isLt500 = file.size / 1024 / 1024 < 2;
@@ -111,12 +112,12 @@ export default {
         return false;
       }
     },
-    // 上传图片成功的方法
+    // 上传图片成功
     doSuccess(response) {
       this.uploading = false;
-      this.$emit("upLoadImgSuccess", response.data);
+      this.$emit("update:imgUrl", response.data);
     },
-    // 上传图片失败的方法
+    // 上传图片失败
     doError() {
       this.$message.error("上传失败，请稍后重试");
       this.uploading = false;

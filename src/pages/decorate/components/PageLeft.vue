@@ -66,7 +66,7 @@ export default {
     // 拖动开始
     onDragstart(component, event) {
       console.log("拖动组件", component, event);
-      //1.把拖动状态设置为true,(iframe内部根据这个状态来监听iframe页面被移入的事件触不触发)
+      //把拖动状态设置为true,(iframe内部根据这个状态来监听iframe页面被移入的事件触不触发)
       // 拖动的组件数据存起来，然后在iframe内部获取到存入的数据，并通过跨源通信传递给iframe(crs项目)页面
       this.SET_DRAG_STATE(true);
       this.SET_DRAG_COMPONENT(JSON.parse(JSON.stringify(component)));

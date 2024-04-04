@@ -59,7 +59,7 @@ export default {
   },
   watch: {
     // 模态框显示时清空输入框数据
-    dialogVisible(newVal, oldVal) {
+    dialogVisible(newVal) {
       if (newVal) {
         this.customLinkForm.link = ''
       }

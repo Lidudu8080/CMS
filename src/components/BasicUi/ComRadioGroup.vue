@@ -8,7 +8,7 @@
       :class="{'active':value == item.id}"
       @click="setValue(item.id)"
     >
-      <!-- 有icon图标 -->
+      <!-- 有icon -->
       <el-tooltip v-if="item.icon" class="item" effect="dark"
                   :content="item.name" placement="bottom"
       >
@@ -16,7 +16,7 @@
           <i :class="'deco-icon-'+item.icon" />
         </button>
       </el-tooltip>
-      <!-- 无icon图标 -->
+      <!-- 无icon -->
       <button v-else type="button" class="button">
         {{ item.name }}
       </button>

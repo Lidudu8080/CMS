@@ -97,7 +97,6 @@ const store = new Vuex.Store({
             component.id = id
             if (component.iconClass) { delete component.iconClass }
             state.pageData.componentList.splice(index, 0, component)
-            console.log(id, 'id')
             this.commit('SET_ACTIVE_ID', id)
             this.commit('VIEW_SET_ACTIVE', id)
             this.commit('SET_SETTYPE', 2)
@@ -115,13 +114,11 @@ const store = new Vuex.Store({
         },
         // 页面编辑组件方法
         EDIT_COMPONENT(state, { id, data }) {
-            console.log('修改store数据', id, data)
             const component = state.pageData.componentList.find(item => item.id === id)
             if (component) component.data = data
         },
         // 页面更新方法
         UPDATE_COMPONENT(state, { data }) {
-            console.log('PC搭建页面更新页面数据为', data)
             state.pageData = data || {}
         },
         // 获取H5组件高度并更新
@@ -132,7 +129,6 @@ const store = new Vuex.Store({
         // 向H5页面发送更改后的数据
         // disabledRestHeight: 是否将h5组件高度更新到cms
         VIEW_UPDATE(state, disabledRestHeight = false) {
-            console.log(state.pageData, '更新后的H5数据')
             messager.emit('pageChange', {
                 disabledRestHeight,
                 value: state.pageData
@@ -152,15 +148,12 @@ const store = new Vuex.Store({
         }
     },
     actions: {
-        // 登录超时重新登录
         reLogin(context) {
-            // 保留当前页面数据并重新登录
             window.localStorage.setItem('design-editor-cache-' + context.state.pageData.pageId, JSON.stringify(context.state.pageData.componentList))
             window.location.href = window.location.origin + '/vendor/tologin'
         },
         // 搭建页面数据变化时调用方法 - 将更改后的数据发送到H5
         pageChange({ commit }, changeValue) {
-            console.log(changeValue, 'changeValue')
             const commitObj = {
                 add: 'ADD_COMPONENT', // 新增组件
                 delete: 'DELETE_COMPONENT', // 删除组件
@@ -168,24 +161,21 @@ const store = new Vuex.Store({
                 update: 'UPDATE_COMPONENT' // 更新页面
             }
             commitObj[changeValue.type] && commit(commitObj[changeValue.type], changeValue)
-            // 向H5页面发送更改后的数据
             commit('VIEW_UPDATE')
         },
-        // 跨源通信对象H5数据的监听
+        // h5页面数据监听
         initMessage({ commit }) {
-            // 监听H5预览页面高度变化
+            // 监听高度变化
             messager.on('pageHeightChange', data => {
-                console.log('从H5更新组件高度为', data)
                 let height = data.height ? data.height + 72 : 768
                 let list = data.componentsTopList || []
                 commit('UPDATE_PAGE_HEIGHT', { height, list })
             })
-            // 监听H5预览页面数据变化
+            // 监听数据变化
             messager.on('pageChange', data => {
-                console.log('从H5更新组件数据为', data)
                 commit('UPDATE_COMPONENT', { data })
             })
-            // 监听H5预览页面选中项id变化
+            // 监听选中项id变化
             messager.on('setActive', id => {
                 commit('SET_ACTIVE_ID', id)
                 commit('SET_SETTYPE', 2)

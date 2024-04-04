@@ -110,7 +110,7 @@ export default {
   },
   watch: {
     // 模态框显示时获取列表数据
-    dialogVisible(newVal, oldVal) {
+    dialogVisible(newVal) {
       if (newVal) {
         this.list = []
         this.nowPage = 1
